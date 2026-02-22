@@ -21,6 +21,53 @@
         }
         .price-tag:hover { transform: scale(1.1); }
     </style>
+    <script>
+        // API configuration
+        const API_URL = window.location.origin + '/api';
+
+        // Handle Start Shopping button
+        function startShopping() {
+            alert('Welcome to The Daily Goods Co.! 🛍️\n\nFeatures:\n✅ Browse Products\n✅ Add to Cart\n✅ Checkout\n\nMore features coming soon!');
+        }
+
+        // Handle Sign In
+        function handleSignIn() {
+            alert('Sign In feature coming soon! 🔐');
+        }
+
+        // Handle Search
+        function handleSearch() {
+            alert('Search feature coming soon! 🔍');
+        }
+
+        // Fetch and display products
+        async function loadProducts() {
+            try {
+                const response = await fetch(API_URL + '/products');
+                const products = await response.json();
+                console.log('Products loaded:', products);
+            } catch (error) {
+                console.log('Products API not yet connected');
+            }
+        }
+
+        // Check API health
+        async function checkAPI() {
+            try {
+                const response = await fetch(API_URL.replace('/api', '') + '/health');
+                const data = await response.json();
+                console.log('API Status:', data);
+            } catch (error) {
+                console.log('API connecting...');
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            checkAPI();
+            loadProducts();
+        });
+    </script>
 </head>
 <body class="bg-gray-50">
 
@@ -38,19 +85,19 @@
             <a href="#" class="hover:text-black">Health</a>
         </div>
         <div class="flex items-center gap-5">
-            <button class="text-xl">🔍</button>
-            <button class="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold">Sign In</button>
+            <button class="text-xl cursor-pointer" onclick="handleSearch()">🔍</button>
+            <button class="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold cursor-pointer hover:bg-gray-800" onclick="handleSignIn()">Sign In</button>
         </div>
     </nav>
 
     <section class="relative h-[85vh] m-6 rounded-3xl overflow-hidden shadow-2xl hero-bg">
         
-        <div class="absolute top-1/4 left-1/4 price-tag px-4 py-2 rounded-lg shadow-lg cursor-pointer">
+        <div class="absolute top-1/4 left-1/4 price-tag px-4 py-2 rounded-lg shadow-lg cursor-pointer hover:shadow-xl" onclick="alert('Organic Apples - $18 USD / ₹420 INR')">
             <p class="text-[10px] text-gray-500 font-bold uppercase">Organic Apples</p>
             <p class="font-bold text-gray-900">$18.00 / ₹420</p>
         </div>
 
-        <div class="absolute bottom-1/3 right-1/4 price-tag px-4 py-2 rounded-lg shadow-lg cursor-pointer border-l-4 border-green-500">
+        <div class="absolute bottom-1/3 right-1/4 price-tag px-4 py-2 rounded-lg shadow-lg cursor-pointer border-l-4 border-green-500 hover:shadow-xl" onclick="alert('Premium Blend - $18 USD / ₹720 INR')">
             <p class="text-[10px] text-gray-500 font-bold uppercase">Premium Blend</p>
             <p class="font-bold text-gray-900">$18.00 / ₹720</p>
         </div>
@@ -60,7 +107,7 @@
                 <span class="text-green-600 font-bold tracking-widest text-xs uppercase">Trusted & Affordable</span>
                 <h1 class="text-4xl font-bold mt-2 mb-4 text-gray-900">Essentials delivered to your doorstep.</h1>
                 <p class="text-gray-600 mb-6">High-quality daily goods at prices that make sense. No markups, just quality.</p>
-                <button class="bg-black text-white w-full py-4 rounded-xl font-bold hover:bg-gray-800 transition">
+                <button class="bg-black text-white w-full py-4 rounded-xl font-bold hover:bg-gray-800 transition cursor-pointer" onclick="startShopping()">
                     Start Shopping
                 </button>
             </div>
