@@ -354,6 +354,118 @@
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMG_URL = 'https://image.tmdb.org/t/p/w500';
         
+        // Mock movies data (fallback when API fails)
+        const mockMovies = [
+            {
+                id: 1,
+                title: "The Shawshank Redemption",
+                overview: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                poster_path: "https://images.unsplash.com/photo-1489599849228-bed96d3a3c4d?auto=format&fit=crop&q=80&w=500",
+                release_date: "1994-10-14",
+                vote_average: 9.3,
+                genres: [{name: "Drama"}, {name: "Crime"}]
+            },
+            {
+                id: 2,
+                title: "The Godfather",
+                overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant youngest son.",
+                poster_path: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=500",
+                release_date: "1972-03-24",
+                vote_average: 9.2,
+                genres: [{name: "Crime"}, {name: "Drama"}]
+            },
+            {
+                id: 3,
+                title: "The Dark Knight",
+                overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest tests.",
+                poster_path: "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&q=80&w=500",
+                release_date: "2008-07-18",
+                vote_average: 9.0,
+                genres: [{name: "Action"}, {name: "Crime"}]
+            },
+            {
+                id: 4,
+                title: "Inception",
+                overview: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.",
+                poster_path: "https://images.unsplash.com/photo-1512070679280-1a45f9c16c78?auto=format&fit=crop&q=80&w=500",
+                release_date: "2010-07-16",
+                vote_average: 8.8,
+                genres: [{name: "Sci-Fi"}, {name: "Action"}]
+            },
+            {
+                id: 5,
+                title: "Pulp Fiction",
+                overview: "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence.",
+                poster_path: "https://images.unsplash.com/photo-1548010894-a3a4dc0c8fe6?auto=format&fit=crop&q=80&w=500",
+                release_date: "1994-10-14",
+                vote_average: 8.9,
+                genres: [{name: "Crime"}, {name: "Drama"}]
+            },
+            {
+                id: 6,
+                title: "Forrest Gump",
+                overview: "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man.",
+                poster_path: "https://images.unsplash.com/photo-1574235211450-eed266df24cd?auto=format&fit=crop&q=80&w=500",
+                release_date: "1994-07-06",
+                vote_average: 8.8,
+                genres: [{name: "Drama"}, {name: "Romance"}]
+            },
+            {
+                id: 7,
+                title: "Interstellar",
+                overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+                poster_path: "https://images.unsplash.com/photo-1536440936694-6c676bccc92e?auto=format&fit=crop&q=80&w=500",
+                release_date: "2014-11-07",
+                vote_average: 8.7,
+                genres: [{name: "Sci-Fi"}, {name: "Drama"}]
+            },
+            {
+                id: 8,
+                title: "The Matrix",
+                overview: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+                poster_path: "https://images.unsplash.com/photo-1535016066054-ad025b65f5a3?auto=format&fit=crop&q=80&w=500",
+                release_date: "1999-03-31",
+                vote_average: 8.7,
+                genres: [{name: "Sci-Fi"}, {name: "Action"}]
+            },
+            {
+                id: 9,
+                title: "Avatar",
+                overview: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+                poster_path: "https://images.unsplash.com/photo-1598899217893-4c5b8aa87ebc?auto=format&fit=crop&q=80&w=500",
+                release_date: "2009-12-18",
+                vote_average: 7.8,
+                genres: [{name: "Sci-Fi"}, {name: "Fantasy"}]
+            },
+            {
+                id: 10,
+                title: "Titanic",
+                overview: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+                poster_path: "https://images.unsplash.com/photo-1561988703-137c0343e2fb?auto=format&fit=crop&q=80&w=500",
+                release_date: "1997-12-19",
+                vote_average: 7.8,
+                genres: [{name: "Drama"}, {name: "Romance"}]
+            },
+            {
+                id: 11,
+                title: "Joker",
+                overview: "In Gotham City, struggling comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime.",
+                poster_path: "https://images.unsplash.com/photo-1618945824727-92b8c258401e?auto=format&fit=crop&q=80&w=500",
+                release_date: "2019-10-04",
+                vote_average: 8.4,
+                genres: [{name: "Crime"}, {name: "Drama"}]
+            },
+            {
+                id: 12,
+                title: "Avengers Endgame",
+                overview: "After the devastating events, the Avengers assemble once more in order to reverse Thanos' actions and restore balance.",
+                poster_path: "https://images.unsplash.com/photo-1578874691223-64558c0e33ad?auto=format&fit=crop&q=80&w=500",
+                release_date: "2019-04-26",
+                vote_average: 8.4,
+                genres: [{name: "Action"}, {name: "Adventure"}]
+            }
+        ];
+        
         let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
         let currentGenre = 'all';
         let currentModal = null;
@@ -372,16 +484,25 @@
             try {
                 const response = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
                 const data = await response.json();
-                displayMovies(data.results.slice(0, 20), 'trendingMovies');
-                
-                if (data.results.length > 0) {
+                if (data.results && data.results.length > 0) {
+                    displayMovies(data.results.slice(0, 20), 'trendingMovies');
                     const hero = data.results[0];
                     document.getElementById('heroTitle').textContent = hero.title;
                     document.getElementById('heroDesc').textContent = hero.overview;
+                } else {
+                    loadMockTrending();
                 }
             } catch (error) {
-                console.log('Error loading trending movies');
+                console.log('API Error, using mock data');
+                loadMockTrending();
             }
+        }
+
+        // Load mock trending
+        function loadMockTrending() {
+            displayMovies(mockMovies, 'trendingMovies');
+            document.getElementById('heroTitle').textContent = mockMovies[0].title;
+            document.getElementById('heroDesc').textContent = mockMovies[0].overview;
         }
 
         // Fetch popular movies
@@ -389,9 +510,13 @@
             try {
                 const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
                 const data = await response.json();
-                displayMovies(data.results.slice(0, 20), 'popularMovies');
+                if (data.results && data.results.length > 0) {
+                    displayMovies(data.results.slice(0, 20), 'popularMovies');
+                } else {
+                    displayMovies(mockMovies.slice(0, 10), 'popularMovies');
+                }
             } catch (error) {
-                console.log('Error loading popular movies');
+                displayMovies(mockMovies.slice(0, 10), 'popularMovies');
             }
         }
 
@@ -400,51 +525,75 @@
             try {
                 const response = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}`);
                 const data = await response.json();
-                displayMovies(data.results.slice(0, 20), 'topRatedMovies');
+                if (data.results && data.results.length > 0) {
+                    displayMovies(data.results.slice(0, 20), 'topRatedMovies');
+                } else {
+                    displayMovies(mockMovies.slice(10, 20), 'topRatedMovies');
+                }
             } catch (error) {
-                console.log('Error loading top rated movies');
+                displayMovies(mockMovies.slice(10, 20), 'topRatedMovies');
             }
         }
 
         // Display movies
         function displayMovies(movies, containerId) {
             const container = document.getElementById(containerId);
-            container.innerHTML = movies.map(movie => `
+            container.innerHTML = movies.map(movie => {
+                const posterUrl = movie.poster_path ? 
+                    (movie.poster_path.startsWith('http') ? movie.poster_path : IMG_URL + movie.poster_path) : 
+                    movie.poster_path;
+                return `
                 <div class="movie-card" onclick="openMovieDetail(${movie.id})">
-                    <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                    <img src="${posterUrl}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/300x450?text=${movie.title}'">
                     <div class="play-button">▶</div>
                     <div class="movie-overlay">
                         <h3 class="font-bold text-sm line-clamp-2">${movie.title}</h3>
                         <div class="flex gap-2 mt-2 text-xs text-gray-300">
                             <span>⭐ ${(movie.vote_average || 0).toFixed(1)}</span>
-                            <span>${new Date(movie.release_date || '').getFullYear() || 'N/A'}</span>
+                            <span>${movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}</span>
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         // Open movie details
         async function openMovieDetail(movieId) {
             try {
-                const response = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
-                const movie = await response.json();
+                let movie;
+                // Check if it's a mock movie
+                const mockMovie = mockMovies.find(m => m.id === movieId);
+                if (mockMovie) {
+                    movie = mockMovie;
+                } else {
+                    const response = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
+                    movie = await response.json();
+                }
                 
-                document.getElementById('modalPoster').src = IMG_URL + movie.poster_path;
+                const posterUrl = movie.poster_path ? 
+                    (movie.poster_path.startsWith('http') ? movie.poster_path : IMG_URL + movie.poster_path) : 
+                    '';
+                
+                document.getElementById('modalPoster').src = posterUrl;
                 document.getElementById('modalTitle').textContent = movie.title;
-                document.getElementById('modalDesc').textContent = movie.overview;
-                document.getElementById('modalYear').textContent = new Date(movie.release_date).getFullYear();
+                document.getElementById('modalDesc').textContent = movie.overview || 'No description available';
+                document.getElementById('modalYear').textContent = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
                 document.getElementById('modalIMDB').textContent = (movie.vote_average || 0).toFixed(1) + '/10';
-                document.getElementById('modalGenre').textContent = movie.genres.map(g => g.name).join(', ') || 'N/A';
+                
+                const genreText = movie.genres && movie.genres.length > 0 ? 
+                    movie.genres.map(g => g.name || g).join(', ') : 'N/A';
+                document.getElementById('modalGenre').textContent = genreText;
                 
                 // Star rating
-                const stars = Math.round(movie.vote_average / 2);
-                document.getElementById('modalRating').innerHTML = '⭐'.repeat(stars) + '☆'.repeat(5 - stars);
+                const stars = Math.round((movie.vote_average || 0) / 2);
+                document.getElementById('modalRating').innerHTML = '⭐'.repeat(Math.min(stars, 5)) + '☆'.repeat(Math.max(0, 5 - stars));
                 
                 currentModal = movieId;
                 document.getElementById('movieModal').classList.add('active');
             } catch (error) {
-                console.log('Error loading movie details');
+                console.log('Error loading movie details', error);
+                alert('Error loading movie details');
             }
         }
 
