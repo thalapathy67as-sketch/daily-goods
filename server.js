@@ -62,6 +62,13 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model('Order', orderSchema);
 
+// Serve static files
+app.use(express.static(__dirname));
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/general.html');
+});
+
 // Routes
 
 // Get all products
