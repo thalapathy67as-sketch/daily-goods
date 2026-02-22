@@ -8,18 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { font-family: 'Poppins', sans-serif; }
-        body { background: #0f0f0f; color: #fff; }
+        body { background: #0a0e27; color: #fff; }
         
         .gradient-text {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), 
-                        url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&q=80&w=1920');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&q=80&w=1920');
             background-size: cover;
             background-position: center;
             height: 500px;
@@ -30,8 +28,9 @@
             overflow: hidden;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             aspect-ratio: 2/3;
+            background: #1a1a2e;
         }
         
         .movie-card:hover {
@@ -43,11 +42,10 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.4s ease;
         }
         
         .movie-card:hover img {
-            filter: brightness(1.1);
+            filter: brightness(1.2);
         }
         
         .movie-overlay {
@@ -55,8 +53,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            padding: 16px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7));
+            padding: 12px;
             transform: translateY(100%);
             transition: transform 0.3s ease;
         }
@@ -65,15 +63,15 @@
             transform: translateY(0);
         }
         
-        .play-button {
-            width: 50px;
-            height: 50px;
+        .play-btn {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 28px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: absolute;
@@ -81,20 +79,138 @@
             left: 50%;
             transform: translate(-50%, -50%);
             opacity: 0;
+            border: none;
+            color: white;
         }
         
-        .movie-card:hover .play-button {
+        .movie-card:hover .play-btn {
             opacity: 1;
         }
         
-        .play-button:hover {
-            background: #764ba2;
-            transform: translate(-50%, -50%) scale(1.1);
+        .play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: #1a1a2e;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+        
+        .trailer-modal-content {
+            background: transparent;
+            max-width: 900px;
+            position: relative;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(0,0,0,0.9);
+            transform: scale(1.1);
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .btn-secondary {
+            border: 2px solid #667eea;
+            color: #667eea;
+            background: transparent;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
         }
         
         .category-btn {
-            padding: 8px 24px;
-            border-radius: 25px;
+            padding: 8px 20px;
+            border-radius: 20px;
             border: 2px solid #333;
             background: transparent;
             color: #fff;
@@ -110,128 +226,91 @@
             border-color: transparent;
         }
         
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
+        .search-input {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: #1a1a1a;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid #333;
-        }
-        
-        .rating {
-            display: flex;
-            gap: 4px;
-            font-size: 14px;
-        }
-        
-        .star { color: #ffd700; }
-        
-        .searchbar {
-            position: relative;
-        }
-        
-        .searchbar input {
+            max-width: 400px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid transparent;
             border-radius: 25px;
             padding: 10px 20px;
             color: #fff;
-            width: 300px;
             transition: all 0.3s ease;
         }
         
-        .searchbar input:focus {
+        .search-input:focus {
             outline: none;
             border-color: #667eea;
             background: rgba(255, 255, 255, 0.15);
         }
         
-        .searchbar input::placeholder {
+        .search-input::placeholder {
             color: #999;
         }
         
-        .watchlist-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            background: #667eea;
+        .rating { color: #ffd700; font-size: 14px; }
+        
+        .watchlist-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc2626;
             color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .watchlist-btn:hover {
-            background: #764ba2;
-            transform: scale(1.05);
-        }
-        
-        .watchlist-btn.added {
-            background: #10b981;
-        }
-        
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 400px;
-        }
-        
-        .loader {
-            border: 4px solid #333;
-            border-top: 4px solid #667eea;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 999;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .no-poster {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-size: 40px;
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+    <nav class="sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="text-3xl">🎬</div>
                 <span class="text-2xl font-bold gradient-text">CinemaHub</span>
             </div>
             
-            <div class="searchbar hidden md:block">
-                <input type="text" id="searchInput" placeholder="Search movies...">
+            <div class="hidden md:block">
+                <input type="text" id="searchInput" placeholder="Search movies..." class="search-input">
             </div>
             
             <div class="flex items-center gap-4">
-                <button onclick="toggleWatchlist()" class="relative px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                <button id="watchlistBtn" onclick="toggleWatchlist()" class="relative px-4 py-2 rounded-lg hover:bg-gray-800 transition font-semibold">
                     ❤️ Watchlist
-                    <span id="watchlistBadge" class="absolute -top-2 -right-2 bg-red-600 text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
-                </button>
-                <button onclick="toggleTheme()" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">
-                    🌙
+                    <span id="watchlistBadge" class="watchlist-badge hidden">0</span>
                 </button>
             </div>
         </div>
@@ -240,13 +319,13 @@
     <!-- Hero Section -->
     <section class="hero relative flex items-end p-8">
         <div class="max-w-xl">
-            <h1 id="heroTitle" class="text-5xl font-bold mb-4">Featured Movie</h1>
-            <p id="heroDesc" class="text-gray-300 mb-6 line-clamp-3">Loading...</p>
+            <h1 id="heroTitle" class="text-5xl font-bold mb-4">Stream Premium Movies</h1>
+            <p id="heroDesc" class="text-gray-300 mb-6 line-clamp-3">Watch thousands of movies instantly</p>
             <div class="flex gap-4">
-                <button onclick="playMovie()" class="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold hover:shadow-lg hover:shadow-purple-500/50 transition">
+                <button id="heroPlayBtn" onclick="playTrailer()" class="btn btn-primary">
                     ▶ Watch Now
                 </button>
-                <button onclick="addToWatchlist('hero')" class="px-8 py-3 border-2 border-white rounded-lg font-bold hover:bg-white hover:text-black transition">
+                <button onclick="addToWatchlist()" class="btn btn-secondary">
                     + Watchlist
                 </button>
             </div>
@@ -255,24 +334,20 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-12">
-        
         <!-- Categories -->
-        <div class="mb-12">
-            <div class="flex gap-3 overflow-x-auto pb-4">
-                <button onclick="filterGenre('all')" class="category-btn active">All Movies</button>
-                <button onclick="filterGenre('28')" class="category-btn">Action</button>
-                <button onclick="filterGenre('35')" class="category-btn">Comedy</button>
-                <button onclick="filterGenre('18')" class="category-btn">Drama</button>
-                <button onclick="filterGenre('27')" class="category-btn">Horror</button>
-                <button onclick="filterGenre('53')" class="category-btn">Thriller</button>
-                <button onclick="filterGenre('878')" class="category-btn">Sci-Fi</button>
-                <button onclick="filterGenre('14')" class="category-btn">Fantasy</button>
-            </div>
+        <div class="mb-12 flex gap-3 overflow-x-auto pb-4">
+            <button onclick="filterGenre('all')" class="category-btn active">All</button>
+            <button onclick="filterGenre('action')" class="category-btn">Action</button>
+            <button onclick="filterGenre('comedy')" class="category-btn">Comedy</button>
+            <button onclick="filterGenre('drama')" class="category-btn">Drama</button>
+            <button onclick="filterGenre('horror')" class="category-btn">Horror</button>
+            <button onclick="filterGenre('scifi')" class="category-btn">Sci-Fi</button>
+            <button onclick="filterGenre('romance')" class="category-btn">Romance</button>
         </div>
 
         <!-- Trending Section -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6">Trending Now 🔥</h2>
+            <h2 class="text-3xl font-bold mb-6">🔥 Trending Now</h2>
             <div id="trendingMovies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <!-- Movies load here -->
             </div>
@@ -280,7 +355,7 @@
 
         <!-- Popular Section -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6">Most Popular ⭐</h2>
+            <h2 class="text-3xl font-bold mb-6">⭐ Most Popular</h2>
             <div id="popularMovies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <!-- Movies load here -->
             </div>
@@ -288,7 +363,7 @@
 
         <!-- Top Rated Section -->
         <section>
-            <h2 class="text-3xl font-bold mb-6">Top Rated 👑</h2>
+            <h2 class="text-3xl font-bold mb-6">👑 Top Rated</h2>
             <div id="topRatedMovies" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <!-- Movies load here -->
             </div>
@@ -297,323 +372,316 @@
 
     <!-- Movie Details Modal -->
     <div id="movieModal" class="modal">
+        <button class="close-btn" onclick="closeModal()">✕</button>
         <div class="modal-content">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-2xl hover:text-red-600 transition">✕</button>
             <img id="modalPoster" src="" alt="" class="w-full h-80 object-cover rounded-t-lg">
             <div class="p-8">
                 <h2 id="modalTitle" class="text-3xl font-bold mb-2"></h2>
                 <div class="flex gap-4 mb-4">
-                    <div class="rating" id="modalRating"></div>
+                    <span id="modalRating" class="rating"></span>
                     <span id="modalYear" class="text-gray-400"></span>
                 </div>
                 <p id="modalDesc" class="text-gray-300 mb-6 leading-relaxed"></p>
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div>
                         <p class="text-gray-400 text-sm">Rating</p>
-                        <p id="modalIMDB" class="text-xl font-bold">8.5/10</p>
+                        <p id="modalIMDB" class="text-2xl font-bold">8.5/10</p>
                     </div>
                     <div>
-                        <p class="text-gray-400 text-sm">Genres</p>
-                        <p id="modalGenre" class="text-lg font-semibold">Action, Thriller</p>
+                        <p class="text-gray-400 text-sm">Genre</p>
+                        <p id="modalGenre" class="text-lg font-semibold">Action</p>
                     </div>
                 </div>
                 <div class="flex gap-4">
-                    <button onclick="playMovie()" class="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold hover:shadow-lg hover:shadow-purple-500/50 transition">
-                        ▶ Watch Now
-                    </button>
-                    <button onclick="addToWatchlist('modal')" class="flex-1 px-6 py-3 border-2 border-white rounded-lg font-bold hover:bg-white hover:text-black transition">
-                        + Watchlist
-                    </button>
+                    <button onclick="playTrailer()" class="flex-1 btn btn-primary">▶ Watch Trailer</button>
+                    <button id="modalWatchlistBtn" onclick="toggleModalWatchlist()" class="flex-1 btn btn-secondary">+ Watchlist</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trailer Modal -->
+    <div id="trailerModal" class="modal">
+        <button class="close-btn" onclick="closeTrailer()">✕</button>
+        <div class="trailer-modal-content">
+            <div class="video-container">
+                <iframe id="trailerIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
     <!-- Watchlist Modal -->
     <div id="watchlistModal" class="modal">
+        <button class="close-btn" onclick="toggleWatchlist()">✕</button>
         <div class="modal-content">
             <div class="p-8">
-                <h2 class="text-3xl font-bold mb-6">My Watchlist ❤️</h2>
+                <h2 class="text-3xl font-bold mb-6">❤️ My Watchlist</h2>
                 <div id="watchlistItems" class="space-y-4">
-                    <p class="text-gray-400 text-center py-8">Your watchlist is empty. Add movies to get started!</p>
+                    <p class="text-gray-400 text-center py-8">Your watchlist is empty</p>
                 </div>
-                <button onclick="toggleWatchlist()" class="mt-6 w-full px-6 py-2 bg-gray-700 rounded-lg font-semibold hover:bg-gray-600 transition">
-                    Close
-                </button>
             </div>
         </div>
     </div>
 
     <!-- Notification -->
-    <div id="notification" class="fixed bottom-8 right-8 bg-green-600 text-white px-6 py-3 rounded-lg hidden">
-        Added to watchlist!
-    </div>
+    <div id="notification" class="notification hidden"></div>
 
     <script>
-        const API_KEY = '8ebf7b2d';
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-        
-        // Mock movies data (fallback when API fails)
-        const mockMovies = [
+        // Complete Movie Database with trailers
+        const movies = [
             {
                 id: 1,
                 title: "The Shawshank Redemption",
                 overview: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-                poster_path: "https://images.unsplash.com/photo-1489599849228-bed96d3a3c4d?auto=format&fit=crop&q=80&w=500",
-                release_date: "1994-10-14",
-                vote_average: 9.3,
-                genres: [{name: "Drama"}, {name: "Crime"}]
+                poster: "https://images.unsplash.com/photo-1489599849228-bed96d3a3c4d?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/6hB3ودQfLg",
+                rating: 9.3,
+                year: 1994,
+                genre: "drama",
+                categories: ["drama"]
             },
             {
                 id: 2,
                 title: "The Godfather",
-                overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant youngest son.",
-                poster_path: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=500",
-                release_date: "1972-03-24",
-                vote_average: 9.2,
-                genres: [{name: "Crime"}, {name: "Drama"}]
+                overview: "The aging patriarch of an organized crime dynasty transfers control to his reluctant youngest son.",
+                poster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/sY1S34973d4",
+                rating: 9.2,
+                year: 1972,
+                genre: "drama",
+                categories: ["drama"]
             },
             {
                 id: 3,
                 title: "The Dark Knight",
-                overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest tests.",
-                poster_path: "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&q=80&w=500",
-                release_date: "2008-07-18",
-                vote_average: 9.0,
-                genres: [{name: "Action"}, {name: "Crime"}]
+                overview: "When the Joker wreaks havoc on Gotham, Batman must accept one of the greatest tests to fight injustice.",
+                poster: "https://images.unsplash.com/photo-1543722530-d2c3201371e7?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/EXeTwQWrcwY",
+                rating: 9.0,
+                year: 2008,
+                genre: "action",
+                categories: ["action"]
             },
             {
                 id: 4,
                 title: "Inception",
-                overview: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea.",
-                poster_path: "https://images.unsplash.com/photo-1512070679280-1a45f9c16c78?auto=format&fit=crop&q=80&w=500",
-                release_date: "2010-07-16",
-                vote_average: 8.8,
-                genres: [{name: "Sci-Fi"}, {name: "Action"}]
+                overview: "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea.",
+                poster: "https://images.unsplash.com/photo-1512070679280-1a45f9c16c78?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/YoHD_XwrzKc",
+                rating: 8.8,
+                year: 2010,
+                genre: "scifi",
+                categories: ["scifi"]
             },
             {
                 id: 5,
                 title: "Pulp Fiction",
-                overview: "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence.",
-                poster_path: "https://images.unsplash.com/photo-1548010894-a3a4dc0c8fe6?auto=format&fit=crop&q=80&w=500",
-                release_date: "1994-10-14",
-                vote_average: 8.9,
-                genres: [{name: "Crime"}, {name: "Drama"}]
+                overview: "The lives of two mob hitmen, a boxer, a gangster's wife intertwine in four tales of violence.",
+                poster: "https://images.unsplash.com/photo-1548010894-a3a4dc0c8fe6?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/s7EdQ4FqJDE",
+                rating: 8.9,
+                year: 1994,
+                genre: "drama",
+                categories: ["drama"]
             },
             {
                 id: 6,
                 title: "Forrest Gump",
-                overview: "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man.",
-                poster_path: "https://images.unsplash.com/photo-1574235211450-eed266df24cd?auto=format&fit=crop&q=80&w=500",
-                release_date: "1994-07-06",
-                vote_average: 8.8,
-                genres: [{name: "Drama"}, {name: "Romance"}]
+                overview: "The presidencies of Kennedy and Johnson unfold from the perspective of an Alabama man with an unusual destiny.",
+                poster: "https://images.unsplash.com/photo-1574235211450-eed266df24cd?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/bLvqoByUGDc",
+                rating: 8.8,
+                year: 1994,
+                genre: "drama",
+                categories: ["drama", "romance"]
             },
             {
                 id: 7,
                 title: "Interstellar",
-                overview: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-                poster_path: "https://images.unsplash.com/photo-1536440936694-6c676bccc92e?auto=format&fit=crop&q=80&w=500",
-                release_date: "2014-11-07",
-                vote_average: 8.7,
-                genres: [{name: "Sci-Fi"}, {name: "Drama"}]
+                overview: "A team of explorers travel through a wormhole in space to ensure humanity's survival.",
+                poster: "https://images.unsplash.com/photo-1536440936694-6c676bccc92e?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/zSp-3fq52EI",
+                rating: 8.7,
+                year: 2014,
+                genre: "scifi",
+                categories: ["scifi"]
             },
             {
                 id: 8,
                 title: "The Matrix",
-                overview: "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-                poster_path: "https://images.unsplash.com/photo-1535016066054-ad025b65f5a3?auto=format&fit=crop&q=80&w=500",
-                release_date: "1999-03-31",
-                vote_average: 8.7,
-                genres: [{name: "Sci-Fi"}, {name: "Action"}]
+                overview: "A computer hacker learns about the true nature of his reality and his role in the war against its controllers.",
+                poster: "https://images.unsplash.com/photo-1535016066054-ad025b65f5a3?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/vKQi3bBA1y8",
+                rating: 8.7,
+                year: 1999,
+                genre: "scifi",
+                categories: ["scifi", "action"]
             },
             {
                 id: 9,
-                title: "Avatar",
-                overview: "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                poster_path: "https://images.unsplash.com/photo-1598899217893-4c5b8aa87ebc?auto=format&fit=crop&q=80&w=500",
-                release_date: "2009-12-18",
-                vote_average: 7.8,
-                genres: [{name: "Sci-Fi"}, {name: "Fantasy"}]
+                title: "Titanic",
+                overview: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the ill-fated R.M.S. Titanic.",
+                poster: "https://images.unsplash.com/photo-1561988703-137c0343e2fb?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/CHmeqaUlXfk",
+                rating: 7.8,
+                year: 1997,
+                genre: "romance",
+                categories: ["romance", "drama"]
             },
             {
                 id: 10,
-                title: "Titanic",
-                overview: "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-                poster_path: "https://images.unsplash.com/photo-1561988703-137c0343e2fb?auto=format&fit=crop&q=80&w=500",
-                release_date: "1997-12-19",
-                vote_average: 7.8,
-                genres: [{name: "Drama"}, {name: "Romance"}]
+                title: "Joker",
+                overview: "In Gotham City, struggling comedian Arthur Fleck is disregarded by society and embarks on a downward spiral.",
+                poster: "https://images.unsplash.com/photo-1618945824727-92b8c258401e?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/t433PEQvMGs",
+                rating: 8.4,
+                year: 2019,
+                genre: "drama",
+                categories: ["drama"]
             },
             {
                 id: 11,
-                title: "Joker",
-                overview: "In Gotham City, struggling comedian Arthur Fleck is disregarded and mistreated by society. He then embarks on a downward spiral of revolution and bloody crime.",
-                poster_path: "https://images.unsplash.com/photo-1618945824727-92b8c258401e?auto=format&fit=crop&q=80&w=500",
-                release_date: "2019-10-04",
-                vote_average: 8.4,
-                genres: [{name: "Crime"}, {name: "Drama"}]
+                title: "Avengers Endgame",
+                overview: "After the devastating events, the Avengers assemble once more to reverse Thanos' actions.",
+                poster: "https://images.unsplash.com/photo-1578874691223-64558c0e33ad?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/TcMBFSGVi1c",
+                rating: 8.4,
+                year: 2019,
+                genre: "action",
+                categories: ["action"]
             },
             {
                 id: 12,
-                title: "Avengers Endgame",
-                overview: "After the devastating events, the Avengers assemble once more in order to reverse Thanos' actions and restore balance.",
-                poster_path: "https://images.unsplash.com/photo-1578874691223-64558c0e33ad?auto=format&fit=crop&q=80&w=500",
-                release_date: "2019-04-26",
-                vote_average: 8.4,
-                genres: [{name: "Action"}, {name: "Adventure"}]
+                title: "Dune",
+                overview: "Paul Atreides travels to the dangerous planet Arrakis to ensure the future of his family and people.",
+                poster: "https://images.unsplash.com/photo-1597990810691-e39a982f0dfa?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/n9xhJsAgZmM",
+                rating: 8.0,
+                year: 2021,
+                genre: "scifi",
+                categories: ["scifi"]
+            },
+            {
+                id: 13,
+                title: "The Conjuring",
+                overview: "Paranormal investigators work to help a family terrorized by a dark presence in their farmhouse.",
+                poster: "https://images.unsplash.com/photo-1513741539140-09461f1aa8a8?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/k10ETZ41b5o",
+                rating: 7.5,
+                year: 2013,
+                genre: "horror",
+                categories: ["horror"]
+            },
+            {
+                id: 14,
+                title: "Deadpool",
+                overview: "A former assassin with accelerated healing becomes a merc with a mouth seeking revenge.",
+                poster: "https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/ONHd4o9yWgI",
+                rating: 8.0,
+                year: 2016,
+                genre: "action",
+                categories: ["action", "comedy"]
+            },
+            {
+                id: 15,
+                title: "The Hangover",
+                overview: "Three buddies wake up from a bachelor party in Las Vegas with no memory of the night.",
+                poster: "https://images.unsplash.com/photo-1552891219-acff387b4e4e?auto=format&fit=crop&q=80&w=500",
+                trailer: "https://www.youtube.com/embed/tpOj4fI-sXE",
+                rating: 7.7,
+                year: 2009,
+                genre: "comedy",
+                categories: ["comedy"]
             }
         ];
-        
+
         let watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
         let currentGenre = 'all';
-        let currentModal = null;
+        let currentMovieId = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            loadTrendingMovies();
-            loadPopularMovies();
-            loadTopRatedMovies();
+            displayMovies(movies, 'trendingMovies');
+            displayMovies(movies.slice(0, 10), 'popularMovies');
+            displayMovies(movies.slice(5, 15), 'topRatedMovies');
             updateWatchlistBadge();
             setupSearch();
+            
+            document.getElementById('heroTitle').textContent = movies[0].title;
+            document.getElementById('heroDesc').textContent = movies[0].overview;
         });
 
-        // Fetch trending movies
-        async function loadTrendingMovies() {
-            try {
-                const response = await fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
-                const data = await response.json();
-                if (data.results && data.results.length > 0) {
-                    displayMovies(data.results.slice(0, 20), 'trendingMovies');
-                    const hero = data.results[0];
-                    document.getElementById('heroTitle').textContent = hero.title;
-                    document.getElementById('heroDesc').textContent = hero.overview;
-                } else {
-                    loadMockTrending();
-                }
-            } catch (error) {
-                console.log('API Error, using mock data');
-                loadMockTrending();
-            }
-        }
-
-        // Load mock trending
-        function loadMockTrending() {
-            displayMovies(mockMovies, 'trendingMovies');
-            document.getElementById('heroTitle').textContent = mockMovies[0].title;
-            document.getElementById('heroDesc').textContent = mockMovies[0].overview;
-        }
-
-        // Fetch popular movies
-        async function loadPopularMovies() {
-            try {
-                const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`);
-                const data = await response.json();
-                if (data.results && data.results.length > 0) {
-                    displayMovies(data.results.slice(0, 20), 'popularMovies');
-                } else {
-                    displayMovies(mockMovies.slice(0, 10), 'popularMovies');
-                }
-            } catch (error) {
-                displayMovies(mockMovies.slice(0, 10), 'popularMovies');
-            }
-        }
-
-        // Fetch top rated movies
-        async function loadTopRatedMovies() {
-            try {
-                const response = await fetch(`${BASE_URL}/movie/top_rated?api_key=${API_KEY}`);
-                const data = await response.json();
-                if (data.results && data.results.length > 0) {
-                    displayMovies(data.results.slice(0, 20), 'topRatedMovies');
-                } else {
-                    displayMovies(mockMovies.slice(10, 20), 'topRatedMovies');
-                }
-            } catch (error) {
-                displayMovies(mockMovies.slice(10, 20), 'topRatedMovies');
-            }
-        }
-
         // Display movies
-        function displayMovies(movies, containerId) {
+        function displayMovies(moviesToDisplay, containerId) {
             const container = document.getElementById(containerId);
-            container.innerHTML = movies.map(movie => {
-                const posterUrl = movie.poster_path ? 
-                    (movie.poster_path.startsWith('http') ? movie.poster_path : IMG_URL + movie.poster_path) : 
-                    movie.poster_path;
-                return `
+            container.innerHTML = moviesToDisplay.map(movie => `
                 <div class="movie-card" onclick="openMovieDetail(${movie.id})">
-                    <img src="${posterUrl}" alt="${movie.title}" onerror="this.src='https://via.placeholder.com/300x450?text=${movie.title}'">
-                    <div class="play-button">▶</div>
+                    <img src="${movie.poster}" alt="${movie.title}" onerror="this.parentElement.innerHTML='<div class=\"no-poster\">🎬</div>'">
+                    <button class="play-btn" onclick="event.stopPropagation(); playTrailer(${movie.id})">▶</button>
                     <div class="movie-overlay">
                         <h3 class="font-bold text-sm line-clamp-2">${movie.title}</h3>
                         <div class="flex gap-2 mt-2 text-xs text-gray-300">
-                            <span>⭐ ${(movie.vote_average || 0).toFixed(1)}</span>
-                            <span>${movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}</span>
+                            <span class="rating">⭐ ${movie.rating}</span>
+                            <span>${movie.year}</span>
                         </div>
                     </div>
                 </div>
-            `;
-            }).join('');
+            `).join('');
         }
 
-        // Open movie details
-        async function openMovieDetail(movieId) {
-            try {
-                let movie;
-                // Check if it's a mock movie
-                const mockMovie = mockMovies.find(m => m.id === movieId);
-                if (mockMovie) {
-                    movie = mockMovie;
-                } else {
-                    const response = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
-                    movie = await response.json();
-                }
-                
-                const posterUrl = movie.poster_path ? 
-                    (movie.poster_path.startsWith('http') ? movie.poster_path : IMG_URL + movie.poster_path) : 
-                    '';
-                
-                document.getElementById('modalPoster').src = posterUrl;
-                document.getElementById('modalTitle').textContent = movie.title;
-                document.getElementById('modalDesc').textContent = movie.overview || 'No description available';
-                document.getElementById('modalYear').textContent = movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A';
-                document.getElementById('modalIMDB').textContent = (movie.vote_average || 0).toFixed(1) + '/10';
-                
-                const genreText = movie.genres && movie.genres.length > 0 ? 
-                    movie.genres.map(g => g.name || g).join(', ') : 'N/A';
-                document.getElementById('modalGenre').textContent = genreText;
-                
-                // Star rating
-                const stars = Math.round((movie.vote_average || 0) / 2);
-                document.getElementById('modalRating').innerHTML = '⭐'.repeat(Math.min(stars, 5)) + '☆'.repeat(Math.max(0, 5 - stars));
-                
-                currentModal = movieId;
-                document.getElementById('movieModal').classList.add('active');
-            } catch (error) {
-                console.log('Error loading movie details', error);
-                alert('Error loading movie details');
+        // Open movie detail
+        function openMovieDetail(movieId) {
+            const movie = movies.find(m => m.id === movieId);
+            if (!movie) return;
+
+            currentMovieId = movieId;
+            
+            document.getElementById('modalPoster').src = movie.poster;
+            document.getElementById('modalTitle').textContent = movie.title;
+            document.getElementById('modalDesc').textContent = movie.overview;
+            document.getElementById('modalYear').textContent = movie.year;
+            document.getElementById('modalIMDB').textContent = movie.rating.toFixed(1) + '/10';
+            document.getElementById('modalGenre').textContent = movie.categories.join(', ') || 'N/A';
+            
+            const stars = Math.round(movie.rating / 2);
+            document.getElementById('modalRating').innerHTML = '⭐'.repeat(Math.min(stars, 5)) + '☆'.repeat(Math.max(0, 5 - stars));
+            
+            const inWatchlist = watchlist.includes(movieId);
+            const btn = document.getElementById('modalWatchlistBtn');
+            if (inWatchlist) {
+                btn.textContent = '✓ In Watchlist';
+                btn.classList.add('btn-danger');
+                btn.classList.remove('btn-secondary');
+            } else {
+                btn.textContent = '+ Watchlist';
+                btn.classList.remove('btn-danger');
+                btn.classList.add('btn-secondary');
             }
+            
+            document.getElementById('movieModal').classList.add('active');
         }
 
         // Close modal
         function closeModal() {
             document.getElementById('movieModal').classList.remove('active');
-            currentModal = null;
+            currentMovieId = null;
         }
 
-        // Add to watchlist
-        function addToWatchlist(source) {
-            if (!currentModal && source === 'modal') return;
+        // Play trailer
+        function playTrailer(movieId = null) {
+            const id = movieId || currentMovieId;
+            const movie = movies.find(m => m.id === id);
+            if (!movie) return;
             
-            const movieId = currentModal;
-            if (!watchlist.includes(movieId)) {
-                watchlist.push(movieId);
-                localStorage.setItem('watchlist', JSON.stringify(watchlist));
-                updateWatchlistBadge();
-                showNotification('Added to watchlist!');
-            }
+            document.getElementById('trailerIframe').src = movie.trailer + '?autoplay=1';
+            document.getElementById('trailerModal').classList.add('active');
+        }
+
+        // Close trailer
+        function closeTrailer() {
+            document.getElementById('trailerIframe').src = '';
+            document.getElementById('trailerModal').classList.remove('active');
         }
 
         // Toggle watchlist modal
@@ -628,42 +696,60 @@
         }
 
         // Display watchlist
-        async function displayWatchlist() {
+        function displayWatchlist() {
             const container = document.getElementById('watchlistItems');
             
             if (watchlist.length === 0) {
-                container.innerHTML = '<p class="text-gray-400 text-center py-8">Your watchlist is empty!</p>';
+                container.innerHTML = '<p class="text-gray-400 text-center py-8">Your watchlist is empty. Add movies now!</p>';
                 return;
             }
             
-            let html = '';
-            for (const movieId of watchlist) {
-                try {
-                    const response = await fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
-                    const movie = await response.json();
-                    html += `
-                        <div class="flex gap-4 p-4 bg-gray-800 rounded-lg">
-                            <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}" class="w-20 h-32 object-cover rounded">
-                            <div class="flex-1">
-                                <h3 class="font-bold text-lg">${movie.title}</h3>
-                                <p class="text-gray-400 text-sm mb-2">${movie.release_date}</p>
-                                <p class="text-gray-300 text-sm line-clamp-2">${movie.overview}</p>
-                                <div class="flex gap-2 mt-3">
-                                    <button onclick="playMovie()" class="px-4 py-1 bg-purple-600 rounded text-sm font-semibold hover:bg-purple-700">
-                                        Watch
-                                    </button>
-                                    <button onclick="removeFromWatchlist(${movieId})" class="px-4 py-1 bg-red-600 rounded text-sm font-semibold hover:bg-red-700">
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
+            const watchlistMovies = movies.filter(m => watchlist.includes(m.id));
+            container.innerHTML = watchlistMovies.map(movie => `
+                <div class="flex gap-4 p-4 bg-gray-800 rounded-lg">
+                    <img src="${movie.poster}" alt="${movie.title}" class="w-20 h-32 object-cover rounded">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg">${movie.title}</h3>
+                        <p class="text-gray-400 text-sm mb-2">${movie.year}</p>
+                        <p class="text-gray-300 text-sm line-clamp-2">${movie.overview}</p>
+                        <div class="flex gap-2 mt-3">
+                            <button onclick="playTrailer(${movie.id})" class="btn btn-primary">▶ Trailer</button>
+                            <button onclick="removeFromWatchlist(${movie.id})" class="btn btn-danger">Remove</button>
                         </div>
-                    `;
-                } catch (error) {
-                    console.log('Error loading watchlist item');
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add to watchlist
+        function addToWatchlist(movieId = null) {
+            const id = movieId || currentMovieId;
+            if (!id) return;
+            
+            if (!watchlist.includes(id)) {
+                watchlist.push(id);
+                localStorage.setItem('watchlist', JSON.stringify(watchlist));
+                updateWatchlistBadge();
+                notify('Added to watchlist!');
+                
+                if (currentMovieId === id) {
+                    const btn = document.getElementById('modalWatchlistBtn');
+                    if (btn) {
+                        btn.textContent = '✓ In Watchlist';
+                        btn.classList.add('btn-danger');
+                        btn.classList.remove('btn-secondary');
+                    }
                 }
             }
-            container.innerHTML = html;
+        }
+
+        // Toggle modal watchlist
+        function toggleModalWatchlist() {
+            if (watchlist.includes(currentMovieId)) {
+                removeFromWatchlist(currentMovieId);
+            } else {
+                addToWatchlist(currentMovieId);
+            }
         }
 
         // Remove from watchlist
@@ -671,8 +757,17 @@
             watchlist = watchlist.filter(id => id !== movieId);
             localStorage.setItem('watchlist', JSON.stringify(watchlist));
             updateWatchlistBadge();
+            notify('Removed from watchlist');
             displayWatchlist();
-            showNotification('Removed from watchlist');
+            
+            if (currentMovieId === movieId) {
+                const btn = document.getElementById('modalWatchlistBtn');
+                if (btn) {
+                    btn.textContent = '+ Watchlist';
+                    btn.classList.remove('btn-danger');
+                    btn.classList.add('btn-secondary');
+                }
+            }
         }
 
         // Update watchlist badge
@@ -687,54 +782,44 @@
         }
 
         // Filter by genre
-        async function filterGenre(genreId) {
-            currentGenre = genreId;
+        function filterGenre(genre) {
+            currentGenre = genre;
             document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            if (genreId === 'all') {
-                loadTrendingMovies();
-                loadPopularMovies();
-                loadTopRatedMovies();
+            if (genre === 'all') {
+                displayMovies(movies, 'trendingMovies');
+                displayMovies(movies.slice(0, 10), 'popularMovies');
+                displayMovies(movies.slice(5, 15), 'topRatedMovies');
             } else {
-                try {
-                    const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}`);
-                    const data = await response.json();
-                    displayMovies(data.results.slice(0, 20), 'trendingMovies');
-                    document.getElementById('popularMovies').innerHTML = '';
-                    document.getElementById('topRatedMovies').innerHTML = '';
-                } catch (error) {
-                    console.log('Error filtering by genre');
-                }
+                const filtered = movies.filter(m => m.categories.includes(genre));
+                displayMovies(filtered, 'trendingMovies');
+                document.getElementById('popularMovies').innerHTML = '';
+                document.getElementById('topRatedMovies').innerHTML = '';
             }
         }
 
-        // Search movies
+        // Search
         function setupSearch() {
-            document.getElementById('searchInput').addEventListener('input', async (e) => {
-                const query = e.target.value.trim();
-                if (query.length < 2) return;
-                
-                try {
-                    const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
-                    const data = await response.json();
-                    displayMovies(data.results.slice(0, 20), 'trendingMovies');
-                } catch (error) {
-                    console.log('Error searching movies');
+            const input = document.getElementById('searchInput');
+            input.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query.length < 1) {
+                    displayMovies(movies, 'trendingMovies');
+                    document.getElementById('popularMovies').innerHTML = '';
+                    document.getElementById('topRatedMovies').innerHTML = '';
+                    return;
                 }
+                
+                const results = movies.filter(m => m.title.toLowerCase().includes(query));
+                displayMovies(results, 'trendingMovies');
+                document.getElementById('popularMovies').innerHTML = '';
+                document.getElementById('topRatedMovies').innerHTML = '';
             });
         }
 
-        // Play movie
-        function playMovie() {
-            showNotification('Opening player...');
-            setTimeout(() => {
-                alert('🎬 Player Opening...\n\nNote: This is a demo. In a real app, this would open a video player.\n\nEnjoy your movie!');
-            }, 1500);
-        }
-
-        // Show notification
-        function showNotification(message) {
+        // Notification
+        function notify(message) {
             const notif = document.getElementById('notification');
             notif.textContent = message;
             notif.classList.remove('hidden');
@@ -743,11 +828,12 @@
             }, 2000);
         }
 
-        // Toggle theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-        }
+        // Close modals on background click
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'movieModal') closeModal();
+            if (e.target.id === 'trailerModal') closeTrailer();
+            if (e.target.id === 'watchlistModal') toggleWatchlist();
+        });
     </script>
-
 </body>
 </html>
